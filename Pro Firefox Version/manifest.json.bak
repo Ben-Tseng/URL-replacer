@@ -1,0 +1,32 @@
+{
+  "manifest_version": 3,
+  "name": "URL Replacer Pro",
+  "description": "Replace one token across up to 10 URL templates and open results in new tabs.",
+  "version": "1.0.0",
+  "permissions": [
+    "storage",
+    "contextMenus",
+    "tabs",
+    "scripting",
+    "activeTab"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "icons": {
+    "16": "128.png",
+    "32": "128.png",
+    "48": "128.png",
+    "128": "128.png"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "URL Replacer Pro",
+    "default_icon": {
+      "16": "128.png",
+      "32": "128.png",
+      "48": "128.png",
+      "128": "128.png"
+    }
+  }
+}
