@@ -1,0 +1,40 @@
+
+Privacy Policy for URL Replacer Pro
+Effective date: February 24, 2026
+
+URL Replacer Pro respects your privacy.
+
+1. Data We Collect
+We do not collect personal data, account data, or browsing history on external servers.
+
+The extension stores only the following settings locally on your device using chrome.storage.local:
+
+URL template
+Replace token
+2. How We Use Data
+Stored settings are used only to:
+
+Build a new URL from your template and selected/input text
+Open the generated URL in a new browser tab
+3. Data Sharing
+We do not sell, share, or transfer your data to third parties.
+
+4. Permissions
+The extension uses these permissions only for core functionality:
+
+storage: save extension settings locally
+contextMenus: add right-click menu action
+tabs: open generated URL in a new tab
+activeTab: access current tab after user action
+scripting: show input prompt when no text is selected
+5. Data Retention
+All extension data remains on your local device until you clear it or uninstall the extension.
+
+6. Security
+No remote database or cloud service is used by this extension.
+
+7. Changes to This Policy
+We may update this policy from time to time. Updates will be reflected by changing the effective date.
+
+8. Contact
+For privacy questions, contact: bentseng06@gmail.com
