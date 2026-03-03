@@ -50,9 +50,17 @@ async function getSelectionFromPage(tabId) {
       return "";
     }
   })()`;
-  const results = await api.tabs.executeScript(tabId, { code });
-  const first = results && results[0];
-  return typeof first === "string" ? first : "";
+  try {
+    // Read selection from all frames because focused text is often inside iframes.
+    const results = await api.tabs.executeScript(tabId, { code, allFrames: true });
+    if (!Array.isArray(results)) return "";
+    for (const item of results) {
+      if (typeof item === "string" && item.trim()) return item.trim();
+    }
+    return "";
+  } catch (e) {
+    return "";
+  }
 }
 
 async function handleContextMenuClick(info, tab) {
