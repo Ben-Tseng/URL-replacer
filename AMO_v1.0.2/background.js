@@ -6,6 +6,7 @@ const DEFAULT_CONFIG = {
 
 const MENU_ID = "open-replaced-url";
 const SHORTCUT_COMMAND_ID = "open-replaced-url-shortcut";
+const selectionCacheByTabId = new Map();
 
 async function getConfig() {
   const stored = await api.storage.local.get(["urlTemplate", "replaceToken"]);
@@ -83,11 +84,24 @@ async function getTextFromClipboard() {
   }
 }
 
+function updateSelectionCache(tabId, text) {
+  if (typeof tabId !== "number") return;
+  const value = (text || "").trim();
+  if (!value) return;
+  selectionCacheByTabId.set(tabId, value);
+}
+
+function getCachedSelection(tabId) {
+  if (typeof tabId !== "number") return "";
+  return selectionCacheByTabId.get(tabId) || "";
+}
+
 async function handleContextMenuClick(info, tab) {
   const config = await getConfig();
   if (!config.urlTemplate || !config.replaceToken) return;
 
   const selection = (info.selectionText || "").trim();
+  if (selection) updateSelectionCache(tab.id, selection);
   const value = selection || (await promptInputInPage(tab.id, config.replaceToken));
   const targetUrl = buildTargetUrl(config.urlTemplate, config.replaceToken, value);
 
@@ -101,8 +115,13 @@ async function handleShortcutCommand() {
   if (!activeTab || typeof activeTab.id !== "number") return;
 
   const selectionText = await getSelectionFromPage(activeTab.id);
-  const fallbackClipboardText = selectionText ? "" : await getTextFromClipboard();
-  await handleContextMenuClick({ selectionText: selectionText || fallbackClipboardText }, activeTab);
+  if (selectionText) updateSelectionCache(activeTab.id, selectionText);
+  const cachedSelectionText = selectionText ? "" : getCachedSelection(activeTab.id);
+  const fallbackClipboardText = selectionText || cachedSelectionText ? "" : await getTextFromClipboard();
+  await handleContextMenuClick(
+    { selectionText: selectionText || cachedSelectionText || fallbackClipboardText },
+    activeTab
+  );
 }
 
 function createContextMenu() {
@@ -126,4 +145,10 @@ api.contextMenus.onClicked.addListener((info, tab) => {
 api.commands.onCommand.addListener((command) => {
   if (command !== SHORTCUT_COMMAND_ID) return;
   handleShortcutCommand().catch(() => {});
+});
+
+api.runtime.onMessage.addListener((message, sender) => {
+  if (!message || message.type !== "selection-updated") return;
+  if (!sender || !sender.tab || typeof sender.tab.id !== "number") return;
+  updateSelectionCache(sender.tab.id, message.text);
 });
