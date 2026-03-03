@@ -13,7 +13,8 @@
     "storage",
     "contextMenus",
     "tabs",
-    "activeTab"
+    "activeTab",
+    "clipboardRead"
   ],
   "background": {
     "scripts": [
