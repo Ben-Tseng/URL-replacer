@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>URL Replacer Pro</title>
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <main class="card">
+      <h1>URL Replacer Pro</h1>
+      <p class="hint">Add up to 10 URL templates. All templates share one replace token.</p>
+
+      <label for="replaceToken">Replace Token</label>
+      <input id="replaceToken" type="text" autocomplete="off" placeholder="e.g.Ben123" />
+
+      <div class="row-title">
+        <label>URL Templates (max 10)</label>
+        <button id="addBtn" class="ghost" type="button">+ Add URL</button>
+      </div>
+
+      <div id="templateList" class="template-list"></div>
+
+      <button id="saveBtn" type="button">Save</button>
+      <p id="status" class="status" aria-live="polite"></p>
+    </main>
+
+    <template id="templateItem">
+      <div class="template-item">
+        <input class="url-input" type="text" autocomplete="off" placeholder="google.com/search?q=Ben123" />
+        <button class="remove-btn" type="button">Remove</button>
+      </div>
+    </template>
+
+    <script src="popup.js"></script>
+  </body>
+</html>

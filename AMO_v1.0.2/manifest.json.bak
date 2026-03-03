@@ -1,0 +1,32 @@
+{
+  "manifest_version": 3,
+  "name": "Simple URL Replacer",
+  "description": "Use right-click input or selected text to replace a token in a URL template and open a new tab.",
+  "version": "1.0.0",
+  "permissions": [
+    "storage",
+    "contextMenus",
+    "tabs",
+    "scripting",
+    "activeTab"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "icons": {
+    "16": "128.png",
+    "32": "128.png",
+    "48": "128.png",
+    "128": "128.png"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Simple URL Replacer",
+    "default_icon": {
+      "16": "128.png",
+      "32": "128.png",
+      "48": "128.png",
+      "128": "128.png"
+    }
+  }
+}
