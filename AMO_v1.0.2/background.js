@@ -57,7 +57,27 @@ async function getSelectionFromPage(tabId) {
     for (const item of results) {
       if (typeof item === "string" && item.trim()) return item.trim();
     }
-    return "";
+    // Fallback to top frame when allFrames returns empty.
+    const topFrameResults = await api.tabs.executeScript(tabId, { code });
+    const first = topFrameResults && topFrameResults[0];
+    return typeof first === "string" ? first.trim() : "";
+  } catch (e) {
+    try {
+      // If allFrames throws (host permission/frame restrictions), still try top frame.
+      const topFrameResults = await api.tabs.executeScript(tabId, { code });
+      const first = topFrameResults && topFrameResults[0];
+      return typeof first === "string" ? first.trim() : "";
+    } catch (e2) {
+      return "";
+    }
+  }
+}
+
+async function getTextFromClipboard() {
+  try {
+    if (!navigator.clipboard || !navigator.clipboard.readText) return "";
+    const text = await navigator.clipboard.readText();
+    return (text || "").trim();
   } catch (e) {
     return "";
   }
@@ -81,7 +101,8 @@ async function handleShortcutCommand() {
   if (!activeTab || typeof activeTab.id !== "number") return;
 
   const selectionText = await getSelectionFromPage(activeTab.id);
-  await handleContextMenuClick({ selectionText }, activeTab);
+  const fallbackClipboardText = selectionText ? "" : await getTextFromClipboard();
+  await handleContextMenuClick({ selectionText: selectionText || fallbackClipboardText }, activeTab);
 }
 
 function createContextMenu() {
