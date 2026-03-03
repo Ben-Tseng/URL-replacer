@@ -1,0 +1,51 @@
+{
+  "manifest_version": 2,
+  "name": "URL Replacer Pro",
+  "version": "1.0.0",
+  "description": "Replace one token across up to 10 URL templates and open results in new tabs.",
+  "icons": {
+    "16": "128.png",
+    "32": "128.png",
+    "48": "128.png",
+    "128": "128.png"
+  },
+  "permissions": [
+    "storage",
+    "contextMenus",
+    "tabs",
+    "activeTab"
+  ],
+  "background": {
+    "scripts": [
+      "background.js"
+    ]
+  },
+  "browser_action": {
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "128.png",
+      "32": "128.png",
+      "48": "128.png",
+      "128": "128.png"
+    }
+  },
+  "commands": {
+    "open-replaced-urls": {
+      "suggested_key": {
+        "default": "Alt+Shift+Q"
+      },
+      "description": "Prompt for input and open replaced URL(s)."
+    }
+  },
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "url-replacer-pro@example.com",
+      "data_collection_permissions": {
+        "required": [
+          "none"
+        ],
+        "optional": []
+      }
+    }
+  }
+}
