@@ -1,0 +1,5 @@
+const el = document.getElementById('calypso_bl_legitimacy_question_calypso_override_other');
+const setter = Object.getOwnPropertyDescriptor(HTMLTextAreaElement.prototype, 'value').set;
+setter.call(el, 'fail');
+el.dispatchEvent(new Event('input', { bubbles: true }));
+el.dispatchEvent(new Event('change', { bubbles: true }));
